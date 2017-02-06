@@ -55,8 +55,8 @@ class TADViewController: UIViewController, UITextFieldDelegate {
 
     @IBAction func CalculateButtonPressed(_ sender: Any) {
         
-        let userBill = Double(BillAmountText.text!)
-        var tip = Double(TipCalculatedByUser.text!)
+        let userBill = Int(BillAmountText.text!)
+        var tip = Int(TipCalculatedByUser.text!)
         let totalBill = (userBill! * tip!)/100
         TipCalculatedLabel.text = String(userBill! + totalBill)
         
