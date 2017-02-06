@@ -8,19 +8,13 @@
 
 import UIKit
 class TADViewController: UIViewController, UITextFieldDelegate {
-    
-    
-    @IBOutlet weak var CalculateButton: UIButton!
+
     @IBOutlet weak var BillAmountText: UITextField!
     @IBOutlet weak var TipCalculatedLabel: UILabel!
     @IBOutlet weak var TipSlider: UISlider!
     
-    
-    @IBOutlet weak var TipCalculatedByUser: UILabel!
-    @IBOutlet weak var LabelForBill: UILabel!
-    
-    
-    
+    @IBOutlet weak var userTipCalculated: UILabel!
+
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Release any cached data, images, etc that aren't in use.
@@ -28,14 +22,17 @@ class TADViewController: UIViewController, UITextFieldDelegate {
     
 
     override func viewDidLoad() {
-        
         super.viewDidLoad()
+        
+        let tapRecognizer = UITapGestureRecognizer()
+        tapRecognizer.addTarget(self, action: "didTapView")
+        self.view.addGestureRecognizer(tapRecognizer)
     }
     
   
     @IBAction func CalTipSlider(_ sender: UISlider) {
         
-        let userInput = Float(BillAmountText.text!)
+        let userInput = Int(BillAmountText.text!)
         //let currentValue = Int(sender.value)
         if (userInput == nil)
         {
@@ -47,30 +44,15 @@ class TADViewController: UIViewController, UITextFieldDelegate {
         }else
         {
             
-            TipCalculatedByUser.text = String(self.TipSlider.value)
-            LabelForBill.text = BillAmountText.text
-            
+            let tip = Int(self.TipSlider.value)
+            let totalBill = Int((userInput! * tip)/100)
+            TipCalculatedLabel.text = String(userInput! + totalBill)
+            userTipCalculated.text = String (totalBill)
+
         }
     }
-
-    @IBAction func CalculateButtonPressed(_ sender: Any) {
-        
-        let userBill = Int(BillAmountText.text!)
-        var tip = Int(TipCalculatedByUser.text!)
-        let totalBill = (userBill! * tip!)/100
-        TipCalculatedLabel.text = String(userBill! + totalBill)
-        
-    
-    }
-    
-    func dismissKeyboard() {
-        //Causes the view (or one of its embedded text fields) to resign the first responder status.
-        view.endEditing(true)
-    }
-    
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        textField.resignFirstResponder()
-        return true
+    func didTapView(){
+        self.view.endEditing(true)
     }
     
     
